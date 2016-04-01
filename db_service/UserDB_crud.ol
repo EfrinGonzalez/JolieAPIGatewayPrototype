@@ -10,8 +10,9 @@ execution { concurrent }
 
 inputPort UserDB_Service {
 	Location: "socket://localhost:8002/"
+	//Configuration to debbug and have control over the headers.
 	Protocol: http { .format = "json";
-	                 .headers.iv_user = "ivUser";
+	                 .headers.iv_user = "ivUser"; //injected from Fiddler.
 	                 .debug = true;
                      .debug.showContent = true
                     }
@@ -35,6 +36,7 @@ main
 {
         	//Example: http://localhost:8002/retrieveAll
         	[ retrieveAll(request)(response) {
+        	 //The three users that can access this resource.
         		 if((request.ivUser=="g47257") ||
         		    (request.ivUser=="g47258") ||
         		    (request.ivUser=="g47259"))
@@ -63,6 +65,7 @@ main
 
             //Example: http://localhost:8002/retrieve?id=1
              [ retrieve(request)(response) {
+             //The three users that can access this resource.
                     if((request.ivUser=="g47257") ||
                        (request.ivUser=="g47258") ||
                        (request.ivUser=="g47259")){
@@ -70,6 +73,7 @@ main
                                                 .id = request.id
                                             }
                                         )(sqlResponse);
+                                        //Use as a way to debug and show in Windows command line.
                                         println@Console( "You have requested the user_id: " + request.id)();
                                         println@Console( "iv-user: " + request.ivUser)();
 
@@ -86,7 +90,7 @@ main
 
         	//Example: http://localhost:8002/create?email=test@test.com&name=test&password=test
         	[ create(request)(response) {
-
+            //Only this user can access this resource.
         	 if(request.ivUser=="g47258"){
         		update@Database(
         			"insert into users(email, name, password) values (:email, :name, :password)" {

@@ -1,4 +1,4 @@
-
+﻿
 
 The /lib folder must be where the DB functionallity is called. In this case, the whole process
 starts at API_Gateway, once the services are redirected to other services and loaded at the
@@ -41,11 +41,19 @@ CREATE TABLE product
 product_id int NOT NULL AUTO_INCREMENT,
 name varchar(255) NOT NULL,
 code varchar(255) NOT NULL,
-owneer varchar(255) NOT NULL,
+owner varchar(255) NOT NULL,
 description varchar(255),
 PRIMARY KEY (product_id)
 );
 
+INSERT INTO product(name, code, owner, description) 
+VALUES ('NASDAK','10001', 'WALLSTREET','Selling stacks');
+
+INSERT INTO product(name, code, owner, description) 
+VALUES ('NASDAK2','10002', 'WALLSTREET','Selling stacks');
+
+INSERT INTO product(name, code, owner, description) 
+VALUES ('NASDAK3','10003', 'WALLSTREET','Selling stacks');
 -------------------------------------------
 CREATE TABLE users
 (
@@ -56,26 +64,17 @@ password varchar(255),
 PRIMARY KEY (user_id)
 )
 
--------------------------------------------
-CREATE TABLE adapter_registry
-(
-service_id int NOT NULL AUTO_INCREMENT,
-context varchar(255) NOT NULL,
-protocol varchar(255) NOT NULL,
-input_port varchar(255),
-filepath varchar(255),
-location varchar(255),
-PRIMARY KEY (service_id)
-);
+INSERT INTO users(email, name, password)
+VALUES ('email@email.com', 'aname', 'pass1' );
 
-INSERT INTO adapter_registry(context, protocol, input_port, filepath, location)
-VALUES ('ProfileA_Adapter','sodep', 'ProfileA','/profileA_service/ProfileA_Adapter.ol','socket://localhost:2001/');
+INSERT INTO users(email, name, password)
+VALUES ('email2@email.com', 'aname2', 'pass2' );
 
-INSERT INTO adapter_registry(context, protocol, input_port, filepath, location)
-VALUES ('ProfileB_Adapter','sodep', 'ProfileB','/profileB_service/ProfileB_Adapter.ol','socket://localhost:2002/');
 
-INSERT INTO adapter_registry(context, protocol, input_port, filepath, location)
-VALUES ('ProfileC_Adapter','sodep', 'ProfileC','/profileC_service/ProfileC_Adapter.ol','socket://localhost:2003/');
+INSERT INTO users(email, name, password)
+VALUES ('email3@email.com', 'aname3', 'pass3' );
+
+
 
 
 
@@ -94,6 +93,12 @@ PRIMARY KEY (service_id)
 INSERT INTO service_registry(context, input_port, filepath, location)
 VALUES ('ProfileA', 'CustomerDB_Service','/db_service/CustomerDB_crud.ol','socket://localhost:8001/');
 
-UPDATE service_registry 
-SET input_port='CustomerDB_Service', filepath='/db_service/CustomerDB_crud.ol'	
-WHERE service_id='2';
+INSERT INTO service_registry(context, input_port, filepath, location)
+VALUES ('ProfileB', 'UserDB_Service','/db_service/UserDB_crud.ol','socket://localhost:8002/');
+
+
+INSERT INTO service_registry(context, input_port, filepath, location)
+VALUES ('ProfileC', 'ProductDB_Service','/db_service/ProductDB_crud.ol','socket://localhost:8003/');
+
+
+
